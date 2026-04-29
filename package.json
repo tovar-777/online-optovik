@@ -1,0 +1,23 @@
+{
+  "name": "online-optovik",
+  "version": "1.0.0",
+  "description": "B2B Wholesale App — ONLINE-ОПТОВИК",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:client": "vite --config vite.config.js",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "vite": "^8.0.3"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.101.1",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1"
+  }
+}

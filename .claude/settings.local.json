@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx -y @supabase/mcp-server-supabase@latest --access-token \"sbp_6498310f1665f7ff1e1a331457078b9493206bab\" --project-ref \"xtwzuymhegwcxdgpmzju\")",
+      "Bash(npm install:*)",
+      "Bash(cp \"B2B_Wholesale_Project_Instructions_v7.md\" docs/)",
+      "Bash(cp \"Online_Optovik_Concept_v1.docx\" docs/)",
+      "Bash(npx vite:*)",
+      "Bash(npm run:*)",
+      "Bash(curl -s http://localhost:5173)",
+      "Bash(taskkill //F //IM node.exe)",
+      "Read(//c/Users/user/.claude/**)",
+      "Read(//c/Users/user/**)",
+      "mcp__supabase__execute_sql",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:5173/client/index.html)",
+      "Bash(curl -v http://localhost:5173/)",
+      "Bash(netstat -ano)",
+      "Bash(findstr \":5173\")"
+    ]
+  }
+}

@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ONLINE-ОПТОВИК</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../shared/styles/variables.css">
+    <link rel="stylesheet" href="../shared/styles/base.css">
+    <link rel="stylesheet" href="./styles/splash.css">
+    <link rel="stylesheet" href="./styles/catalog.css">
+    <link rel="stylesheet" href="./styles/cart.css">
+    <link rel="stylesheet" href="./styles/auth.css">
+    <link rel="stylesheet" href="./styles/profile.css">
+    <link rel="stylesheet" href="./styles/modals.css">
+</head>
+<body>
+    <!-- Загрузочный экран -->
+    <div id="splash-screen">
+        <!-- Hero background image -->
+        <div class="splash-hero-bg">
+            <img src="https://s3.twcstorage.ru/b04d8e62-1f390a87-c534-4292-9c87-f27109b60cdd/logo/logobeta2.png" alt="" class="splash-hero-img">
+            <div class="splash-hero-fade"></div>
+        </div>
+
+        <!-- Topbar -->
+        <div class="splash-topbar">
+            <div class="splash-top-title">ONLINE-ОПТОВИК</div>
+            <div id="splash-user-info">
+                <div style="font-size:0.68rem;font-weight:600;color:rgba(255,255,255,0.3);letter-spacing:0.07em;border:1px solid rgba(255,255,255,0.09);padding:3px 10px;border-radius:99px;">Оптовая платформа</div>
+            </div>
+        </div>
+
+        <!-- Main splash body -->
+        <div class="splash">
+
+            <!-- AUTH BUTTONS (shown while loading) -->
+            <div class="splash-hero-controls" id="splash-auth-controls">
+
+                <button type="button" id="btn-auth-code" class="splash-secondary-btn" style="font-size:0.88rem;padding:0.8rem 1.2rem">
+                    <span style="margin-right:6px">🔑</span> Войти по личному коду
+                </button>
+                <button type="button" id="btn-auth-guest" class="splash-secondary-btn" style="font-size:0.88rem;padding:0.8rem 1.2rem;opacity:0.6">
+                    Войти без авторизации
+                </button>
+            </div>
+
+            <!-- ENTER BUTTON (shown when logged in and loaded) -->
+            <div id="splash-enter-controls" style="display:none; flex-direction:column; align-items:center; gap:10px; margin-bottom:2.5rem;">
+                <button type="button" id="splash-enter-btn" class="btn-enter" disabled>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;flex-shrink:0;transition:transform 0.28s"><path d="M5 13h11.17l-4.88 4.88c-.39.39-.39 1.03 0 1.42.39.39 1.02.39 1.41 0l6.59-6.59c.39-.39.39-1.02 0-1.41l-6.58-6.6c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L16.17 11H5c-.55 0-1 .45-1 1s.45 1 1 1z"/></svg>
+                    Перейти в каталог
+                </button>
+                <span id="splash-logged-as" style="font-size:0.78rem;color:rgba(0,0,0,0.4)"></span>
+            </div>
+
+            <!-- Progress -->
+            <div class="loader-wrap">
+                <div class="loader-bar" id="splash-loader-bar"></div>
+            </div>
+            <div class="splash-progress">
+                <div class="splash-percent" id="splash-percent">0%</div>
+                <div class="splash-count" id="splash-count">Загружаем товары…</div>
+            </div>
+
+            <!-- Product previews -->
+            <div class="splash-lists">
+                <div class="splash-list-section" id="splash-promo-section">
+                    <div class="list-title">
+                        <span class="splash-list-title-icon" id="splash-promo-icon"></span>
+                        Акции
+                        <span class="list-count" id="splash-promo-count">0</span>
+                        <span class="splash-title-actions">
+                            <button class="splash-info-btn" data-lane="promo" title="О категории"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/></svg></button>
+                            <button class="splash-detail-btn" data-lane="promo" title="Полный список"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M168,152a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,152Zm-8-40H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm56-64V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V48A16,16,0,0,1,56,32H92.26a47.92,47.92,0,0,1,71.48,0H200A16,16,0,0,1,216,48ZM96,64h64a32,32,0,0,0-64,0ZM200,48H173.25A47.93,47.93,0,0,1,176,64v8a8,8,0,0,1-8,8H88a8,8,0,0,1-8-8V64a47.93,47.93,0,0,1,2.75-16H56V216H200Z"/></svg></button>
+                        </span>
+                    </div>
+                    <div id="splash-promo-grid" class="splash-list-grid"></div>
+                </div>
+                <div class="splash-list-section">
+                    <div class="list-title">
+                        <span class="splash-list-title-icon" id="splash-new-icon"></span>
+                        Новинки
+                        <span class="list-count" id="splash-new-count">0</span>
+                        <span class="splash-title-actions">
+                            <button class="splash-info-btn" data-lane="new" title="О категории"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/></svg></button>
+                            <button class="splash-detail-btn" data-lane="new" title="Полный список"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M168,152a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,152Zm-8-40H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm56-64V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V48A16,16,0,0,1,56,32H92.26a47.92,47.92,0,0,1,71.48,0H200A16,16,0,0,1,216,48ZM96,64h64a32,32,0,0,0-64,0ZM200,48H173.25A47.93,47.93,0,0,1,176,64v8a8,8,0,0,1-8,8H88a8,8,0,0,1-8-8V64a47.93,47.93,0,0,1,2.75-16H56V216H200Z"/></svg></button>
+                        </span>
+                    </div>
+                    <div id="splash-new-grid" class="splash-list-grid"></div>
+                </div>
+                <div class="splash-list-section">
+                    <div class="list-title">
+                        <span class="splash-list-title-icon" id="splash-arrival-icon"></span>
+                        Поступление
+                        <span class="list-count" id="splash-arrival-count">0</span>
+                        <span class="splash-title-actions">
+                            <button class="splash-info-btn" data-lane="arrival" title="О категории"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/></svg></button>
+                            <button class="splash-detail-btn" data-lane="arrival" title="Полный список"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M168,152a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,152Zm-8-40H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm56-64V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V48A16,16,0,0,1,56,32H92.26a47.92,47.92,0,0,1,71.48,0H200A16,16,0,0,1,216,48ZM96,64h64a32,32,0,0,0-64,0ZM200,48H173.25A47.93,47.93,0,0,1,176,64v8a8,8,0,0,1-8,8H88a8,8,0,0,1-8-8V64a47.93,47.93,0,0,1,2.75-16H56V216H200Z"/></svg></button>
+                        </span>
+                    </div>
+                    <div id="splash-arrival-grid" class="splash-list-grid"></div>
+                </div>
+                <div class="splash-list-section">
+                    <div class="list-title">
+                        <span class="splash-list-title-icon" id="splash-actual-icon"></span>
+                        Актуальное
+                        <span class="list-count" id="splash-actual-count">0</span>
+                        <span class="splash-title-actions">
+                            <button class="splash-info-btn" data-lane="actual" title="О категории"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/></svg></button>
+                            <button class="splash-detail-btn" data-lane="actual" title="Полный список"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M168,152a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,152Zm-8-40H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm56-64V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V48A16,16,0,0,1,56,32H92.26a47.92,47.92,0,0,1,71.48,0H200A16,16,0,0,1,216,48ZM96,64h64a32,32,0,0,0-64,0ZM200,48H173.25A47.93,47.93,0,0,1,176,64v8a8,8,0,0,1-8,8H88a8,8,0,0,1-8-8V64a47.93,47.93,0,0,1,2.75-16H56V216H200Z"/></svg></button>
+                        </span>
+                    </div>
+                    <div id="splash-actual-grid" class="splash-list-grid"></div>
+                </div>
+                <div class="splash-list-section">
+                    <div class="list-title">
+                        <span class="splash-list-title-icon" id="splash-child-icon"></span>
+                        Детское
+                        <span class="list-count" id="splash-child-count">0</span>
+                        <span class="splash-title-actions">
+                            <button class="splash-info-btn" data-lane="child" title="О категории"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/></svg></button>
+                            <button class="splash-detail-btn" data-lane="child" title="Полный список"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M168,152a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,152Zm-8-40H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm56-64V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V48A16,16,0,0,1,56,32H92.26a47.92,47.92,0,0,1,71.48,0H200A16,16,0,0,1,216,48ZM96,64h64a32,32,0,0,0-64,0ZM200,48H173.25A47.93,47.93,0,0,1,176,64v8a8,8,0,0,1-8,8H88a8,8,0,0,1-8-8V64a47.93,47.93,0,0,1,2.75-16H56V216H200Z"/></svg></button>
+                        </span>
+                    </div>
+                    <div id="splash-child-grid" class="splash-list-grid"></div>
+                </div>
+                <div class="splash-list-section">
+                    <div class="list-title">
+                        <span class="splash-list-title-icon" id="splash-discount-icon"></span>
+                        Уценка
+                        <span class="list-count" id="splash-discount-count">0</span>
+                        <span class="splash-title-actions">
+                            <button class="splash-info-btn" data-lane="discount" title="О категории"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/></svg></button>
+                            <button class="splash-detail-btn" data-lane="discount" title="Полный список"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M168,152a8,8,0,0,1-8,8H96a8,8,0,0,1,0-16h64A8,8,0,0,1,168,152Zm-8-40H96a8,8,0,0,0,0,16h64a8,8,0,0,0,0-16Zm56-64V216a16,16,0,0,1-16,16H56a16,16,0,0,1-16-16V48A16,16,0,0,1,56,32H92.26a47.92,47.92,0,0,1,71.48,0H200A16,16,0,0,1,216,48ZM96,64h64a32,32,0,0,0-64,0ZM200,48H173.25A47.93,47.93,0,0,1,176,64v8a8,8,0,0,1-8,8H88a8,8,0,0,1-8-8V64a47.93,47.93,0,0,1,2.75-16H56V216H200Z"/></svg></button>
+                        </span>
+                    </div>
+                    <div id="splash-discount-grid" class="splash-list-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         AUTH MODALS
+    ============================================================ -->
+
+    <!-- CODE AUTH MODAL -->
+    <div class="auth-overlay" id="auth-code-overlay">
+        <div class="auth-modal" id="auth-code-modal" style="padding:24px 22px">
+            <button class="auth-modal-close" id="auth-code-close">✕</button>
+
+            <!-- ── ШАГ 0: ВЫБОР (Войти / Зарегистрироваться) ── -->
+            <div id="code-step-0">
+                <div class="auth-modal-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12.65 10C11.83 7.67 9.61 6 7 6c-3.31 0-6 2.69-6 6s2.69 6 6 6c2.61 0 4.83-1.67 5.65-4H17v4h4v-4h2v-4H12.65zM7 14c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg></div>
+                <h2 style="margin-bottom:6px">Личный код</h2>
+                <p class="auth-modal-subtitle">Уже есть код — войдите. Нет кода — зарегистрируйтесь, это быстро.</p>
+                <div id="auth-msg-code" class="auth-message"></div>
+                <button class="auth-btn-primary" id="btn-go-login" style="margin-bottom:10px">🔑 У меня есть код — войти</button>
+                <button class="auth-btn-secondary" id="btn-go-register">📋 Получить личный код</button>
+            </div>
+
+            <!-- ── ШАГ 1: ВХОД ── -->
+            <div id="code-step-login" style="display:none">
+                <h2 style="margin-bottom:4px">Вход по коду</h2>
+                <p class="auth-modal-subtitle">Введите телефон и 5-значный код от менеджера</p>
+                <div id="auth-msg-login" class="auth-message"></div>
+                <div class="auth-field">
+                    <label>Личный код (5 цифр)</label>
+                    <div style="position:relative">
+                        <input type="text" id="login-code" placeholder="_ _ _ _ _" maxlength="5"
+                            inputmode="numeric" pattern="[0-9]*"
+                            style="font-family:monospace;font-size:1.6rem;letter-spacing:0.3em;text-align:center;padding-right:48px">
+                        <button type="button" id="btn-paste-code" title="Вставить из буфера"
+                            style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:7px;padding:5px 8px;cursor:pointer;font-size:1rem;line-height:1;color:rgba(255,255,255,0.7)">
+                            📋
+                        </button>
+                    </div>
+                </div>
+                <div id="login-block-msg" style="display:none;font-size:0.75rem;color:#ff6b6b;text-align:center;margin-bottom:8px"></div>
+                <!-- simple captcha -->
+                <div id="login-captcha-wrap" style="display:none;margin-bottom:12px">
+                    <div style="font-size:0.78rem;color:rgba(255,255,255,0.5);margin-bottom:6px;text-align:center">Нажмите на правильную цифру:</div>
+                    <div id="login-captcha-row" style="display:flex;gap:8px;justify-content:center"></div>
+                    <div id="login-captcha-msg" style="font-size:0.72rem;color:#ff6b6b;text-align:center;margin-top:4px;min-height:16px"></div>
+                </div>
+                <button class="auth-btn-primary" id="btn-do-code-login">Войти</button>
+                <button class="auth-btn-back" id="btn-login-back">← Назад</button>
+            </div>
+
+            <!-- ── ШАГ 2: РЕГИСТРАЦИЯ — тип клиента ── -->
+            <div id="code-step-reg1" style="display:none">
+                <h2 style="margin-bottom:4px">Регистрация</h2>
+                <p class="auth-modal-subtitle">Шаг 1 из 3 — Кто вы?</p>
+                <div id="auth-msg-reg1" class="auth-message"></div>
+
+                <!-- Выбор типа -->
+                <div style="display:flex;gap:10px;margin-bottom:18px">
+                    <button class="reg-type-btn" id="reg-type-physical" onclick="window._regSetType('physical')">
+                        <div style="font-size:1.4rem;margin-bottom:4px">👤</div>
+                        <div style="font-weight:700">Физическое лицо</div>
+                        <div style="font-size:0.72rem;opacity:0.55;margin-top:2px">Частный покупатель</div>
+                    </button>
+                    <button class="reg-type-btn" id="reg-type-legal" onclick="window._regSetType('legal')">
+                        <div style="font-size:1.4rem;margin-bottom:4px">🏢</div>
+                        <div style="font-weight:700">Юридическое лицо</div>
+                        <div style="font-size:0.72rem;opacity:0.55;margin-top:2px">ИП или организация</div>
+                    </button>
+                </div>
+
+                <!-- Физлицо -->
+                <div id="reg-fields-physical" style="display:none">
+                    <div class="auth-field">
+                        <label>Имя <span style="color:#e8ff47">*</span></label>
+                        <input type="text" id="reg-first-name" placeholder="Имя" autocomplete="given-name">
+                    </div>
+                    <div class="auth-field">
+                        <label>Фамилия <span style="opacity:0.4">(необязательно)</span></label>
+                        <input type="text" id="reg-last-name" placeholder="Фамилия" autocomplete="family-name">
+                    </div>
+                </div>
+
+                <!-- Юр. лицо -->
+                <div id="reg-fields-legal" style="display:none">
+
+                    <!-- 1. Поиск + список (position:relative контейнер) -->
+                    <div style="position:relative;margin-bottom:10px">
+                        <div class="legal-search-field" style="margin-bottom:0">
+                            <input class="legal-search-input" type="text" id="legal-unified-search"
+                                placeholder="Введите юр. название, ИНН или ОГРН"
+                                autocomplete="off">
+                            <span id="legal-spin" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);display:none;font-size:0.8rem;color:rgba(100,180,255,0.7)">⏳</span>
+                        </div>
+                        <!-- Список организаций — абсолютный, не двигает layout -->
+                        <div id="legal-org-list" style="display:none;position:absolute;left:0;right:0;z-index:100;max-height:220px;overflow-y:auto;border:1px solid rgba(100,180,255,0.2);border-radius:10px;background:#13131a;box-shadow:0 8px 24px rgba(0,0,0,0.4);">
+                        </div>
+                    </div>
+                    <div id="legal-reset-wrap" style="display:none;margin-bottom:8px">
+                        <button type="button" onclick="window._legalReset()"
+                            style="font-size:0.72rem;color:rgba(255,100,100,0.7);background:none;border:none;cursor:pointer;padding:0;text-decoration:underline">
+                            ✕ Сбросить выбор и найти другую организацию
+                        </button>
+                    </div>
+                    <div id="legal-lock-banner" style="display:none;align-items:center;gap:8px;padding:8px 12px;margin-bottom:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:10px;">
+                        <span style="font-size:1rem">🔒</span>
+                        <span style="font-size:0.78rem;color:rgba(255,255,255,0.5);flex:1">Данные организации зафиксированы. Добавляется новый адрес доставки.</span>
+                        <button type="button" onclick="window._legalReset();_clearLegalLock();"
+                            style="font-size:0.7rem;color:rgba(255,100,100,0.6);background:none;border:none;cursor:pointer;padding:0;white-space:nowrap;text-decoration:underline">
+                            Сменить организацию
+                        </button>
+                    </div>
+                    <!-- org-not-found -->
+                    <div id="legal-org-not-found" style="display:none;font-size:0.78rem;color:rgba(255,255,255,0.35);padding:4px 0 8px;font-style:italic">
+                        Организация не найдена — заполните поля вручную
+                    </div>
+
+                    <!-- 3. Наименование (заполняется из поиска или вручную) -->
+                    <div class="auth-field" id="legal-name-wrap" style="display:none">
+                        <label>Наименование <span style="color:#e8ff47">*</span></label>
+                        <input type="text" id="reg-org-name" placeholder="Полное наименование" autocomplete="organization">
+                    </div>
+
+                    <!-- 4. Реквизиты (появляются после выбора) -->
+                    <div id="legal-details" style="display:none">
+                        <div style="display:flex;gap:8px">
+                            <div class="auth-field" style="flex:1">
+                                <label>ИНН <span style="color:#e8ff47">*</span></label>
+                                <input type="text" id="reg-inn" placeholder="ИНН" inputmode="numeric" maxlength="12">
+                            </div>
+                            <div class="auth-field" style="flex:1">
+                                <label>ОГРН <span style="color:#e8ff47">*</span></label>
+                                <input type="text" id="reg-ogrn" placeholder="ОГРН" inputmode="numeric" maxlength="15">
+                            </div>
+                        </div>
+                        <div class="auth-field" id="legal-kpp-wrap">
+                            <label>КПП</label>
+                            <input type="text" id="reg-kpp" placeholder="КПП (для ООО)" inputmode="numeric" maxlength="9">
+                        </div>
+                        <!-- Юридический адрес — разбивка по полям -->
+                        <div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:rgba(100,180,255,0.6);margin:10px 0 6px">
+                            Юридический адрес <span id="legal-addr-hint" style="text-transform:none;font-weight:400;opacity:0.6">(адрес прописки ИП)</span>
+                        </div>
+                        <div class="auth-field" id="legal-city-wrap">
+                            <label>Населённый пункт <span style="color:#e8ff47">*</span></label>
+                            <div class="dadata-wrap" style="position:relative">
+                                <input class="pf-input" type="text" id="legal-addr-city" autocomplete="off" placeholder="Населённый пункт">
+                                <div class="dadata-dropdown" id="legal-dadata-city-drop" style="display:none"></div>
+                            </div>
+                        </div>
+                        <div class="auth-field" id="legal-street-wrap">
+                            <label>Улица <span style="color:#e8ff47">*</span></label>
+                            <div class="dadata-wrap" style="position:relative">
+                                <input class="pf-input" type="text" id="legal-addr-street" autocomplete="off" placeholder="Начните вводить улицу…">
+                                <div class="dadata-dropdown" id="legal-dadata-street-drop" style="display:none"></div>
+                            </div>
+                        </div>
+                        <div class="auth-field" id="legal-house-wrap">
+                            <label>Дом <span style="color:#e8ff47">*</span></label>
+                            <div class="dadata-wrap" style="position:relative">
+                                <input class="pf-input" type="text" id="legal-addr-house" autocomplete="off" placeholder="Сначала выберите улицу" readonly>
+                                <div class="dadata-dropdown" id="legal-dadata-house-drop" style="display:none"></div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="legal-addr-normalized" value="">
+
+
+                        <div class="auth-field" id="legal-charter-wrap" style="display:none">
+                            <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.12);border-radius:8px;padding:10px;text-align:center">
+                                📎 Устав ООО — загрузка документов в профиле после входа
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Общие поля -->
+                <div class="auth-field">
+                    <label>Телефон <span style="opacity:0.4">(необязательно)</span></label>
+                    <input type="tel" id="reg-phone" placeholder="+7 (___) ___-__-__" autocomplete="tel" inputmode="tel">
+                </div>
+                <div class="auth-field">
+                    <label>E-mail <span style="opacity:0.4">(необязательно)</span></label>
+                    <input type="email" id="reg-email" placeholder="example@mail.ru" autocomplete="email">
+                </div>
+
+                <button class="auth-btn-primary" id="btn-reg1-next" disabled>Далее →</button>
+                <button class="auth-btn-back" id="btn-reg1-back">← Назад</button>
+            </div>
+            <!-- ── ШАГ 3: РЕГИСТРАЦИЯ — адрес ── -->
+            <div id="code-step-reg2" style="display:none">
+                <h2 style="margin-bottom:4px">Адрес доставки</h2>
+                <p class="auth-modal-subtitle">Шаг 2 из 3 — Укажите адрес. Несколько адресов можно добавить позже в профиле.</p>
+                <div id="auth-msg-reg2" class="auth-message"></div>
+                <div class="auth-field"><label>Край / Область</label>
+                    <input class="pf-input" id="reg-addr-region" type="text" value="Приморский край" readonly style="opacity:0.6;cursor:default"></div>
+                <div class="auth-field"><label>Населённый пункт</label>
+                    <div class="dadata-wrap">
+                        <input class="pf-input" id="reg-addr-city" type="text" autocomplete="off" placeholder="Населённый пункт">
+                        <div class="dadata-dropdown" id="reg-dadata-city-drop" style="display:none"></div>
+                    </div></div>
+                <div class="auth-field"><label>Улица</label>
+                    <div class="dadata-wrap">
+                        <input class="pf-input" id="reg-addr-street" type="text" autocomplete="off" placeholder="Начните вводить улицу…">
+                        <div class="dadata-dropdown" id="reg-dadata-street-drop" style="display:none"></div>
+                    </div></div>
+                <div class="auth-field"><label>Дом</label>
+                    <div class="dadata-wrap">
+                        <input class="pf-input" id="reg-addr-house" type="text" autocomplete="off" placeholder="Сначала выберите улицу" readonly>
+                        <div class="dadata-dropdown" id="reg-dadata-house-drop" style="display:none"></div>
+                    </div></div>
+                <div class="auth-field"><label>Название магазина <span style="opacity:0.4">(необязательно)</span></label>
+                    <input class="pf-input" id="reg-addr-shop" type="text" autocomplete="off" placeholder="напр. ИП Иванов, Магазин Весна…"></div>
+                <input type="hidden" id="reg-addr-normalized" value="">
+                <div id="reg-addr-manual-wrap" style="margin-top:4px">
+                    <details><summary style="font-size:0.74rem;color:rgba(255,255,255,0.3);cursor:pointer;list-style:none;padding:3px 0;user-select:none">ℹ️ Не нашли адрес?</summary>
+                        <div style="margin-top:6px">
+                            <input class="pf-input" id="reg-addr-manual" type="text" autocomplete="off" placeholder="Нас. пункт, улица, дом — вручную" style="font-size:0.82rem">
+                        </div>
+                    </details>
+                </div>
+                <!-- Блок информации о доставке — появляется после выбора города -->
+                <div id="reg-delivery-info" style="display:none;margin:12px 0;padding:12px 14px;background:rgba(232,255,71,0.06);border:1px solid rgba(232,255,71,0.2);border-radius:12px">
+                  <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+                    <span style="font-size:1.1rem">🚚</span>
+                    <span style="font-size:0.8rem;font-weight:700;color:#e8ff47;letter-spacing:0.03em">ДОСТАВКА В ВАШ РАЙОН</span>
+                  </div>
+                  <div id="reg-delivery-text" style="font-size:0.82rem;color:rgba(255,255,255,0.85);line-height:1.6"></div>
+                  <div id="reg-delivery-dates" style="margin-top:8px;display:flex;flex-wrap:wrap;gap:5px"></div>
+                </div>
+                <button class="auth-btn-primary" id="btn-reg2-next">Далее →</button>
+                <button class="auth-btn-back" id="btn-reg2-back">← Назад</button>
+            </div>
+
+            <!-- ── ШАГ 4: РЕГИСТРАЦИЯ — итог и запрос кода ── -->
+            <div id="code-step-reg3" style="display:none">
+                <h2 style="margin-bottom:4px">Запрос кода</h2>
+                <p class="auth-modal-subtitle">Шаг 3 из 3 — Скопируйте текст и отправьте менеджеру в любой мессенджер</p>
+                <div id="auth-msg-reg3" class="auth-message"></div>
+                <div id="reg-save-status" style="font-size:0.75rem;text-align:center;margin-bottom:8px;min-height:18px"></div>
+                <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 14px;margin-bottom:12px">
+                    <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-bottom:4px">Менеджер Антон</div>
+                    <div style="font-size:1rem;font-weight:700;color:#e8ff47;letter-spacing:0.04em">8-924-262-77-67</div>
+                    <button id="btn-copy-phone" onclick="window._copyPhone()" style="margin-top:8px;font-size:0.75rem;background:rgba(232,255,71,0.1);border:1px solid rgba(232,255,71,0.25);color:#e8ff47;border-radius:8px;padding:5px 12px;cursor:pointer">📋 Скопировать номер</button>
+                </div>
+                <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:12px 14px;margin-bottom:14px">
+                    <div style="font-size:0.72rem;color:rgba(255,255,255,0.35);margin-bottom:6px">Текст запроса — скопируйте и отправьте менеджеру:</div>
+                    <div id="reg-request-text" style="font-size:0.82rem;color:rgba(255,255,255,0.85);line-height:1.6;white-space:pre-wrap;word-break:break-word"></div>
+                    <button id="btn-copy-request" onclick="window._copyRequest()" style="margin-top:10px;font-size:0.75rem;background:rgba(232,255,71,0.1);border:1px solid rgba(232,255,71,0.25);color:#e8ff47;border-radius:8px;padding:5px 12px;cursor:pointer">📋 Скопировать текст</button>
+                </div>
+                <div style="font-size:0.72rem;color:rgba(255,255,255,0.3);text-align:center;line-height:1.5;margin-bottom:14px">
+                    После отправки менеджер пришлёт вам личный код. Вернитесь и нажмите «У меня есть код — войти».
+                </div>
+                <button class="auth-btn-back" id="btn-reg3-back">← Назад</button>
+                <button class="auth-btn-primary" id="btn-reg3-done" style="margin-top:8px">Готово — закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MY ORDERS MODAL -->
+    <!-- ═══ PROFILE PANEL OVERLAY ════════════════════════════════════════ -->
+    <div class="profile-overlay" id="profile-overlay"></div>
+    <div class="profile-panel" id="profile-panel">
+        <div class="profile-header">
+            <button class="profile-close-btn" id="profile-close-btn" aria-label="Закрыть">✕</button>
+            <div class="profile-avatar" id="profile-avatar-el"></div>
+            <div class="profile-name" id="profile-name-el">—</div>
+            <div class="profile-sub" id="profile-sub-el"></div>
+            <div class="profile-mode-badge" id="profile-mode-badge"></div>
+        </div>
+
+        <div class="profile-body">
+            <!-- ORDERS -->
+            <div class="profile-section-label">Заказы</div>
+            <button class="profile-item" id="pf-orders-btn">
+                <span class="profile-item-icon">📦</span>
+                <span class="profile-item-text"><span>Мои заказы</span></span>
+                <span class="profile-item-arrow">›</span>
+            </button>
+
+            <div class="profile-divider"></div>
+
+            <!-- CLIENT DATA subpanel button -->
+            <div class="profile-section-label">Данные клиента</div>
+            <button class="profile-item" id="pf-clientdata-btn">
+                <span class="profile-item-icon">🗂️</span>
+                <span class="profile-item-text"><span>Реквизиты и адрес</span></span>
+                <span class="profile-item-arrow">›</span>
+            </button>
+
+            <div class="profile-divider"></div>
+
+            <!-- SUPPORT -->
+            <div class="profile-section-label">Поддержка</div>
+            <div class="profile-item" style="cursor:default">
+                <span class="profile-item-icon">📞</span>
+                <span class="profile-item-text">
+                    <span>Менеджер</span>
+                    <div class="profile-item-sub">+7 (924) 262-77-67</div>
+                </span>
+                <button onclick="navigator.clipboard.writeText('+79242627767').then(function(){var b=this;b.textContent='✓';setTimeout(function(){b.textContent='📋';},1500);}.bind(this))" style="background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:5px 10px;color:rgba(255,255,255,0.6);cursor:pointer;font-size:0.75rem;flex-shrink:0" title="Скопировать номер">📋</button>
+            </div>
+            <button class="profile-item" id="pf-question-btn">
+                <span class="profile-item-icon">❓</span>
+                <span class="profile-item-text"><span>Задать вопрос</span></span>
+                <span class="profile-item-arrow">›</span>
+            </button>
+
+            <div class="profile-divider"></div>
+
+            <!-- INFO -->
+            <div class="profile-section-label">О приложении</div>
+            <button class="profile-item" id="pf-legal-btn">
+                <span class="profile-item-icon">📄</span>
+                <span class="profile-item-text"><span>Пользовательское соглашение</span></span>
+                <span class="profile-item-arrow">›</span>
+            </button>
+            <div class="profile-item" style="cursor:default">
+                <span class="profile-item-icon">ℹ️</span>
+                <span class="profile-item-text">
+                    <span>Версия приложения</span>
+                    <div class="profile-item-sub">ONLINE-ОПТОВИК · Бета</div>
+                </span>
+            </div>
+        </div>
+
+        <div class="profile-footer">
+            <button class="profile-logout-btn" id="pf-logout-btn">Выйти из профиля</button>
+        </div>
+
+        <!-- SUB-PANEL: Orders -->
+        <div class="profile-subpanel" id="pf-sub-orders">
+            <div class="profile-subpanel-header" style="display:flex;align-items:center;justify-content:space-between;padding-right:16px">
+                <div style="display:flex;align-items:center;gap:0">
+                    <button class="profile-back-btn pf-back">‹</button>
+                    <div class="profile-subpanel-title">📦 Мои заказы</div>
+                </div>
+                <button id="pf-orders-cal-btn" style="background:rgba(232,255,71,0.1);border:1px solid rgba(232,255,71,0.25);border-radius:8px;padding:5px 10px;cursor:pointer;font-size:0.78rem;color:#e8ff47;white-space:nowrap;flex-shrink:0">📅 Календарь</button>
+            </div>
+
+            <div class="profile-subpanel-body" style="padding:0;position:relative">
+                <div id="pf-orders-cal-popup" style="display:none;position:absolute;top:4px;right:12px;z-index:20;background:#1a1a2e;border:1px solid rgba(255,255,255,0.12);border-radius:14px;padding:14px;box-shadow:0 8px 32px rgba(0,0,0,0.6);min-width:260px;max-width:280px"></div>
+                <div id="orders-list-content" style="padding:8px 12px 20px">
+                    <div class="orders-empty"><div class="orders-empty-icon">⏳</div>Загружаем…</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUB-PANEL: Client data -->
+        <div class="profile-subpanel" id="pf-sub-clientdata">
+            <div class="profile-subpanel-header">
+                <button class="profile-back-btn pf-back">&#8249;</button>
+                <div class="profile-subpanel-title">Реквизиты и адрес</div>
+            </div>
+            <div class="profile-subpanel-body">
+                <div id="pf-client-info" class="profile-client-info">
+                    <div class="pci-loading">&#9203; Загрузка&#8230;</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SUB-PANEL: Edit name -->
+        <div class="profile-subpanel" id="pf-sub-name">
+            <div class="profile-subpanel-header">
+                <button class="profile-back-btn pf-back">‹</button>
+                <div class="profile-subpanel-title">Ваше имя</div>
+            </div>
+            <div class="profile-subpanel-body">
+                <div class="pf-row">
+                    <label class="pf-label">Имя / Название организации</label>
+                    <input class="pf-input" id="pf-name-input" type="text" placeholder="Как к вам обращаться">
+                </div>
+                <button class="pf-btn" id="pf-name-save">Сохранить</button>
+                <div class="pf-msg" id="pf-name-msg"></div>
+            </div>
+        </div>
+
+        <!-- SUB-PANEL: Addresses -->
+        <div class="profile-subpanel" id="pf-sub-addr">
+            <div class="profile-subpanel-header">
+                <button class="profile-back-btn pf-back">‹</button>
+                <div class="profile-subpanel-title">Адреса доставки</div>
+            </div>
+            <div class="profile-subpanel-body">
+                <div style="background:rgba(232,255,71,0.05);border:1px solid rgba(232,255,71,0.13);border-radius:10px;padding:11px 14px;margin-bottom:16px;font-size:0.77rem;color:rgba(255,255,255,0.5);line-height:1.55">
+                    📍 <b style="color:rgba(255,255,255,0.72)">Зона доставки:</b> г. Уссурийск и район, Приморский край — радиус 200 км.<br>
+                    <span style="color:rgba(255,255,255,0.3);font-size:0.72rem">Зона доставки и ассортимент будут только расширяться.</span>
+                </div>
+                <div id="pf-addr-list"></div>
+                <details id="pf-addr-details" style="margin-top:8px">
+                <summary style="cursor:pointer;font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.45);letter-spacing:0.08em;text-transform:uppercase;padding:8px 2px;list-style:none;display:flex;align-items:center;gap:6px;user-select:none">
+                    <span id="pf-addr-details-arrow" style="font-size:0.85rem;transition:transform 0.2s">▶</span> Добавить адрес
+                </summary>
+                <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:12px;padding:14px;margin-top:4px">
+                    <div style="display:none"><!-- form header merged into summary --></div>
+                    <div class="pf-row">
+                        <label class="pf-label">Край / Область</label>
+                        <input class="pf-input" id="pf-addr-region" type="text" value="Приморский край" autocomplete="off" placeholder="Приморский край" readonly style="opacity:0.6;cursor:default">
+                    </div>
+                    <div class="pf-row">
+                        <label class="pf-label">Населённый пункт</label>
+                        <div class="dadata-wrap">
+                            <input class="pf-input" id="pf-addr-city" type="text" value="" autocomplete="off" placeholder="Населённый пункт">
+                            <div class="dadata-dropdown" id="pf-dadata-city-drop" style="display:none"></div>
+                        </div>
+                    </div>
+                    <div class="pf-row">
+                        <label class="pf-label">Улица</label>
+                        <div class="dadata-wrap">
+                            <input class="pf-input" id="pf-addr-street" type="text" autocomplete="off" placeholder="Начните вводить улицу…">
+                            <div class="dadata-dropdown" id="pf-dadata-street-drop" style="display:none"></div>
+                        </div>
+                    </div>
+                    <div class="pf-row">
+                        <label class="pf-label">Дом</label>
+                        <div class="dadata-wrap">
+                            <input class="pf-input" id="pf-addr-house" type="text" autocomplete="off" placeholder="Сначала выберите улицу" readonly>
+                            <div class="dadata-dropdown" id="pf-dadata-house-drop" style="display:none"></div>
+                        </div>
+                    </div>
+                    <div class="pf-row">
+                        <label class="pf-label">Название магазина <span style="font-weight:400;opacity:0.5">(необязательно)</span></label>
+                        <input class="pf-input" id="pf-addr-shop" type="text" autocomplete="off" placeholder="напр. ИП Иванов, Магазин Весна…">
+                    </div>
+                    <input type="hidden" id="pf-addr-normalized" value="">
+                    <div id="pf-addr-preview-line" style="display:none;font-size:0.78rem;color:#e8ff47;margin-bottom:8px;padding:6px 10px;background:rgba(232,255,71,0.07);border-radius:8px;border:1px solid rgba(232,255,71,0.2)"></div>
+                    <button class="pf-btn" id="pf-addr-save" disabled style="opacity:0.4">Добавить адрес</button>
+                    <div class="pf-msg" id="pf-addr-msg"></div>
+                </div>
+                </details><!-- /pf-addr-details -->
+                <details id="pf-manual-details" style="margin-top:4px">
+                    <summary style="font-size:0.74rem;color:rgba(255,255,255,0.28);cursor:pointer;list-style:none;padding:4px 0;user-select:none">ℹ️ Не нашли свой адрес?</summary>
+                    <div style="margin-top:6px">
+                        <input class="pf-input" id="pf-addr-manual" type="text" autocomplete="off"
+                            placeholder="Нас. пункт, улица, дом — введите вручную"
+                            style="font-size:0.82rem">
+                        <div style="font-size:0.7rem;color:rgba(255,255,255,0.28);margin-top:5px;line-height:1.5">Если населённый пункт выбран выше — он подставится автоматически. Допишите улицу и дом.</div>
+                    </div>
+                </details>
+            </div>
+        </div>
+
+        <!-- SUB-PANEL: Contact -->
+        <div class="profile-subpanel" id="pf-sub-contact">
+            <div class="profile-subpanel-header">
+                <button class="profile-back-btn pf-back">‹</button>
+                <div class="profile-subpanel-title">Связь с менеджером</div>
+            </div>
+            <div class="profile-subpanel-body">
+                <p style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-bottom:20px;line-height:1.5">
+                    Выберите удобный способ связи. Время ответа: обычно в течение рабочего дня.
+                </p>
+                <a class="support-contact" href="tel:+79242627767">
+                    <span class="support-contact-icon" style="background:rgba(76,175,80,0.12)">📞</span>
+                    <span>+7 (924) 262-77-67</span>
+                </a>
+                <a class="support-contact" href="https://wa.me/79242627767" target="_blank" rel="noopener">
+                    <span class="support-contact-icon" style="background:rgba(37,211,102,0.12)">💚</span>
+                    <span>WhatsApp</span>
+                </a>
+                <a class="support-contact" href="https://t.me/+79242627767" target="_blank" rel="noopener">
+                    <span class="support-contact-icon" style="background:rgba(33,150,243,0.12)">✈️</span>
+                    <span>Telegram</span>
+                </a>
+                <a class="support-contact" href="mailto:opt.online.ussurijsk@gmail.com">
+                    <span class="support-contact-icon" style="background:rgba(255,152,0,0.12)">📧</span>
+                    <span>opt.online.ussurijsk@gmail.com</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- SUB-PANEL: Ask question -->
+        <div class="profile-subpanel" id="pf-sub-question">
+            <div class="profile-subpanel-header">
+                <button class="profile-back-btn pf-back">‹</button>
+                <div class="profile-subpanel-title">Задать вопрос</div>
+            </div>
+            <div class="profile-subpanel-body">
+                <p style="font-size:0.82rem;color:rgba(255,255,255,0.45);margin-bottom:16px;line-height:1.5">
+                    Напишите вопрос — менеджер увидит его в системе и ответит по телефону или в мессенджере.
+                </p>
+                <div class="pf-row">
+                    <label class="pf-label">Ваш вопрос</label>
+                    <textarea class="pf-textarea" id="pf-question-text" placeholder="Опишите ваш вопрос или пожелание…"></textarea>
+                </div>
+                <button class="pf-btn" id="pf-question-send">Отправить</button>
+                <div class="pf-msg" id="pf-question-msg"></div>
+            </div>
+        </div>
+
+        <!-- SUB-PANEL: Legal -->
+        <div class="profile-subpanel" id="pf-sub-legal">
+            <div class="profile-subpanel-header">
+                <button class="profile-back-btn pf-back">‹</button>
+                <div class="profile-subpanel-title">Соглашение</div>
+            </div>
+            <div class="profile-subpanel-body">
+                <div class="legal-text">
+                    <h3>1. Общие положения</h3>
+                    <p>Настоящее приложение является оптовой торговой платформой (далее — «Платформа»), предназначенной для оптовых покупок товаров. Использование Платформы означает принятие условий настоящего Соглашения.</p>
+                    <h3>2. Порядок оформления заказа</h3>
+                    <p>Заказ, оформленный через Платформу, является заявкой на покупку. Окончательное подтверждение заказа осуществляется менеджером по связи. Предъявленные цены и наличие товара уточняются на момент подтверждения.</p>
+                    <h3>3. Ограничение ответственности</h3>
+                    <p>Платформа находится в стадии тестирования. Возможны технические сбои. Мы не несём ответственности за потерю данных вследствие технических неисправностей в режиме тестирования.</p>
+                    <h3>4. Конфиденциальность данных</h3>
+                    <p>Персональные данные (имя, контакты, адреса доставки) используются исключительно для обработки заказов и организации доставки. Данные не передаются третьим лицам без согласия пользователя.</p>
+                    <h3>5. Интеллектуальная собственность</h3>
+                    <p>Все материалы Платформы (тексты, изображения, логотипы) являются собственностью правообладателя. Копирование без разрешения запрещено.</p>
+                    <h3>6. Изменение условий</h3>
+                    <p>Мы вправе изменять условия Соглашения. Актуальная версия всегда доступна в приложении. Продолжение использования Платформы означает принятие обновлённых условий.</p>
+                    <h3>7. Связь и поддержка</h3>
+                    <p>По всем вопросам: WhatsApp/Telegram +7-924-262-77-67, эл. почта opt.online.ussurijsk@gmail.com</p>
+                    <div class="legal-version">Версия 1.0 · Редакция от 01.01.2026</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Keep old orders-modal structure for DOM compatibility (hidden) -->
+    <div id="orders-modal" style="display:none">
+        <div id="orders-modal-close" style="display:none"></div>
+    </div>
+
+
+    <div id="app-content">
+    <!-- Верхняя панель с группами -->
+    <div class="top-panel">
+        <div class="groups-filter-section">
+            <div class="groups-filter-scroll" id="groups-filter">
+                <!-- Кнопки групп будут добавлены динамически -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Лента подгрупп -->
+    <div class="subgroups-filter-section">
+        <div class="subgroups-filter-scroll" id="subgroups-filter">
+            <!-- Кнопки подгрупп будут добавлены динамически -->
+        </div>
+    </div>
+
+    <!-- Основной контейнер -->
+    <div class="main-container">
+        <!-- Главный экран -->
+        <div class="main-content">
+            <div class="loading-message">Загружаем товары... Пожалуйста, подождите.</div>
+            <div class="products-container">
+                <!-- Карточки товаров будут добавлены динамически -->
+            </div>
+        </div>
+    </div>
+
+    <!-- My Orders FAB (visible only when logged in) -->
+    <!-- Гостевой выход FAB -->
+    <button class="guest-fab" id="guest-fab" data-tip-left="Выйти из гостевого режима" style="display:none" onclick="window._showGuestConfirm()">🔓</button>
+
+    <!-- Подтверждение выхода из гостевого режима -->
+    <div id="guest-confirm-banner" style="display:none">
+        <span>Выйти из гостевого режима?</span>
+        <div id="guest-confirm-btns">
+            <button id="guest-confirm-yes" onclick="window._guestExit()">Выйти</button>
+            <button id="guest-confirm-no" onclick="window._hideGuestConfirm()">Остаться</button>
+        </div>
+    </div>
+
+    <button class="my-orders-fab" id="my-orders-fab" data-tip-left="Мой профиль">
+        <svg class="fab-profile-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#e7f708" viewBox="0 0 256 256"><path d="M198.13,194.85A8,8,0,0,1,192,208H24a8,8,0,0,1-6.12-13.15c14.94-17.78,33.52-30.41,54.17-37.17a68,68,0,1,1,71.9,0C164.6,164.44,183.18,177.07,198.13,194.85ZM255.18,154a8,8,0,0,1-6.94,4,7.92,7.92,0,0,1-4-1.07l-4.67-2.7a23.92,23.92,0,0,1-7.58,4.39V164a8,8,0,0,1-16,0v-5.38a23.92,23.92,0,0,1-7.58-4.39l-4.67,2.7a7.92,7.92,0,0,1-4,1.07,8,8,0,0,1-4-14.93l4.66-2.69a23.6,23.6,0,0,1,0-8.76l-4.66-2.69a8,8,0,1,1,8-13.86l4.67,2.7a23.92,23.92,0,0,1,7.58-4.39V108a8,8,0,0,1,16,0v5.38a23.92,23.92,0,0,1,7.58,4.39l4.67-2.7a8,8,0,1,1,8,13.86l-4.66,2.69a23.6,23.6,0,0,1,0,8.76l4.66,2.69A8,8,0,0,1,255.18,154ZM224,144a8,8,0,1,0-8-8A8,8,0,0,0,224,144Z"></path></svg>
+    </button>
+
+    <!-- Плавающие кнопки (поиск и корзина) -->
+    <div class="floating-buttons">
+        <!-- Контейнер для кнопки поиска с выплывающим полем -->
+        <div class="search-container">
+            <div class="search-floating-btn" id="search-toggle-btn" data-tip-left="Поиск товаров">
+                <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#23aeb8" viewBox="0 0 256 256"><path d="M213.66,82.34l-56-56A8,8,0,0,0,152,24H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V88A8,8,0,0,0,213.66,82.34ZM160,51.31,188.69,80H160ZM200,216H56V40h88V88a8,8,0,0,0,8,8h48V216Zm-45.54-48.85a36.05,36.05,0,1,0-11.31,11.31l11.19,11.2a8,8,0,0,0,11.32-11.32ZM104,148a20,20,0,1,1,20,20A20,20,0,0,1,104,148Z"></path></svg>
+            </div>
+            <div class="search-expanded-container">
+                <div class="search-input-wrapper">
+                    <input type="text" class="search-input-expanded" placeholder="поиск в текущей группе">
+                    <div class="clear-search-expanded">×</div>
+                </div>
+                <div class="global-search-trigger">
+                    <button type="button" class="global-search-btn" id="global-search-open-btn">Поиск по всему ассортименту</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопка выхода для гостя -->
+        <div class="cart-floating-btn" id="guest-exit-btn" data-tip-left="Вернуться на главный экран" style="display:none;background:rgba(255,152,0,0.15);border:1px solid rgba(255,152,0,0.3)" onclick="window._guestExit()">
+            <span style="font-size:22px">🚪</span>
+        </div>
+
+        <!-- Кнопка корзины -->
+        <div class="cart-floating-btn" id="cart-toggle-btn" data-tip-left="Корзина заказа" style="position:relative">
+            <div class="cart-floating-total">0</div>
+            <svg id="cart-icon-empty" xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="#fc0328" viewBox="0 0 256 256"><path d="M230.14,58.87A8,8,0,0,0,224,56H62.68L56.6,22.57A8,8,0,0,0,48.73,16H24a8,8,0,0,0,0,16h18L67.56,172.29a24,24,0,0,0,5.33,11.27,28,28,0,1,0,44.4,8.44h45.42A27.75,27.75,0,0,0,160,204a28,28,0,1,0,28-28H91.17a8,8,0,0,1-7.87-6.57L80.13,152h116a24,24,0,0,0,23.61-19.71l12.16-66.86A8,8,0,0,0,230.14,58.87ZM104,204a12,12,0,1,1-12-12A12,12,0,0,1,104,204Zm96,0a12,12,0,1,1-12-12A12,12,0,0,1,200,204Zm4-74.57A8,8,0,0,1,196.1,136H77.22L65.59,72H214.41Z"></path></svg>
+            <svg id="cart-icon-full" style="display:none" xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="#fc0328" viewBox="0 0 256 256"><path d="M230.14,58.87A8,8,0,0,0,224,56H62.68L56.6,22.57A8,8,0,0,0,48.73,16H24a8,8,0,0,0,0,16h18L67.56,172.29a24,24,0,0,0,5.33,11.27,28,28,0,1,0,44.4,8.44h45.42A27.75,27.75,0,0,0,160,204a28,28,0,1,0,28-28H91.17a8,8,0,0,1-7.87-6.57L80.13,152h116a24,24,0,0,0,23.61-19.71l12.16-66.86A8,8,0,0,0,230.14,58.87ZM104,204a12,12,0,1,1-12-12A12,12,0,0,1,104,204Zm96,0a12,12,0,1,1-12-12A12,12,0,0,1,200,204Z"></path></svg>
+            <span id="cart-save-dot"></span>
+        </div>
+    </div>
+
+    <!-- Окно глобального поиска -->
+    <div class="global-search-modal">
+        <div class="global-search-dialog">
+            <div class="global-search-header">
+                <div class="global-search-title">Глобальный поиск</div>
+                <button type="button" class="global-search-close">×</button>
+            </div>
+            <div class="global-search-input-wrapper">
+                <input type="text" class="global-search-input" placeholder="Поиск по всему ассортименту...">
+            </div>
+            <div class="global-search-note">Введите не менее 3 символов, чтобы увидеть результаты.</div>
+            <div class="global-search-body">
+                <div class="global-search-list"></div>
+                <div class="global-search-details"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Нижняя панель -->
+    <div class="bottom-panel">
+        <!-- Фильтры по брендам -->
+        <div class="brands-filter-section">
+            <div class="brands-filter-scroll" id="main-brands-filter">
+                <!-- Кнопки брендов будут добавлены динамически -->
+            </div>
+        </div>
+
+        <!-- Кнопки фильтров -->
+        <div class="bottom-buttons">
+            <div class="filter-buttons">
+                <!-- Акции -->
+                <div class="filter-button-container">
+                    <div class="filter-label">Акции(<span class="filter-count" data-filter="promo">0</span>)</div>
+                    <div class="filter-btn filter-btn-promo" data-filter="promo" data-tip="Акции — скидки на товары">
+                        <svg class="filter-icon-outline" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#222" viewBox="0 0 256 256"><path d="M225.86,102.82c-3.77-3.94-7.67-8-9.14-11.57-1.36-3.27-1.44-8.69-1.52-13.94-.15-9.76-.31-20.82-8-28.51s-18.75-7.85-28.51-8c-5.25-.08-10.67-.16-13.94-1.52-3.56-1.47-7.63-5.37-11.57-9.14C146.28,23.51,138.44,16,128,16s-18.27,7.51-25.18,14.14c-3.94,3.77-8,7.67-11.57,9.14C88,40.64,82.56,40.72,77.31,40.8c-9.76.15-20.82.31-28.51,8S41,67.55,40.8,77.31c-.08,5.25-.16,10.67-1.52,13.94-1.47,3.56-5.37,7.63-9.14,11.57C23.51,109.73,16,117.56,16,128s7.51,18.27,14.14,25.18c3.77,3.94,7.67,8,9.14,11.57,1.36,3.27,1.44,8.69,1.52,13.94.15,9.76.31,20.82,8,28.51s18.75,7.85,28.51,8c5.25.08,10.67.16,13.94,1.52,3.56,1.47,7.63,5.37,11.57,9.14C109.72,232.49,117.56,240,128,240s18.27-7.51,25.18-14.14c3.94-3.77,8-7.67,11.57-9.14,3.27-1.36,8.69-1.44,13.94-1.52,9.76-.15,20.82-.31,28.51-8s7.85-18.75,8-28.51c.08-5.25.16-10.67,1.52-13.94,1.47-3.56,5.37-7.63,9.14-11.57C232.49,146.27,240,138.44,240,128S232.49,109.73,225.86,102.82Zm-11.55,39.29c-4.79,5-9.75,10.17-12.38,16.52-2.52,6.1-2.63,13.07-2.73,19.82-.1,7-.21,14.33-3.32,17.43s-10.39,3.22-17.43,3.32c-6.75.1-13.72.21-19.82,2.73-6.35,2.63-11.52,7.59-16.52,12.38S132,224,128,224s-9.15-4.92-14.11-9.69-10.17-9.75-16.52-12.38c-6.1-2.52-13.07-2.63-19.82-2.73-7-.1-14.33-.21-17.43-3.32s-3.22-10.39-3.32-17.43c-.1-6.75-.21-13.72-2.73-19.82-2.63-6.35-7.59-11.52-12.38-16.52S32,132,32,128s4.92-9.14,9.69-14.11,9.75-10.17,12.38-16.52c2.52-6.1,2.63-13.07,2.73-19.82.1-7,.21-14.33,3.32-17.43S70.51,56.9,77.55,56.8c6.75-.1,13.72-.21,19.82-2.73,6.35-2.63,11.52-7.59,16.52-12.38S124,32,128,32s9.15,4.92,14.11,9.69,10.17,9.75,16.52,12.38c6.1,2.52,13.07,2.63,19.82,2.73,7,.1,14.33.21,17.43,3.32s3.22,10.39,3.32,17.43c.1,6.75.21,13.72,2.73,19.82,2.63,6.35,7.59,11.52,12.38,16.52S224,124,224,128,219.08,137.14,214.31,142.11ZM120,96a24,24,0,1,0-24,24A24,24,0,0,0,120,96ZM88,96a8,8,0,1,1,8,8A8,8,0,0,1,88,96Zm72,40a24,24,0,1,0,24,24A24,24,0,0,0,160,136Zm0,32a8,8,0,1,1,8-8A8,8,0,0,1,160,168Zm13.66-74.34-80,80a8,8,0,0,1-11.32-11.32l80-80a8,8,0,0,1,11.32,11.32Z"></path></svg>
+                        <svg class="filter-icon-fill" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#e07800" viewBox="0 0 256 256"><path d="M96,104a8,8,0,1,1,8-8A8,8,0,0,1,96,104Zm64,48a8,8,0,1,0,8,8A8,8,0,0,0,160,152Zm80-24c0,10.44-7.51,18.27-14.14,25.18-3.77,3.94-7.67,8-9.14,11.57-1.36,3.27-1.44,8.69-1.52,13.94-.15,9.76-.31,20.82-8,28.51s-18.75,7.85-28.51,8c-5.25.08-10.67.16-13.94,1.52-3.57,1.47-7.63,5.37-11.57,9.14C146.27,232.49,138.44,240,128,240s-18.27-7.51-25.18-14.14c-3.94-3.77-8-7.67-11.57-9.14-3.27-1.36-8.69-1.44-13.94-1.52-9.76-.15-20.82-.31-28.51-8s-7.85-18.75-8-28.51c-.08-5.25-.16-10.67-1.52-13.94-1.47-3.57-5.37-7.63-9.14-11.57C23.51,146.27,16,138.44,16,128s7.51-18.27,14.14-25.18c3.77-3.94,7.67-8,9.14-11.57,1.36-3.27,1.44-8.69,1.52-13.94.15-9.76.31-20.82,8-28.51s18.75-7.85,28.51-8c5.25-.08,10.67-.16,13.94-1.52,3.57-1.47,7.63-5.37,11.57-9.14C109.73,23.51,117.56,16,128,16s18.27,7.51,25.18,14.14c3.94,3.77,8,7.67,11.57,9.14,3.27,1.36,8.69,1.44,13.94,1.52,9.76.15,20.82.31,28.51,8s7.85,18.75,8,28.51c.08,5.25.16,10.67,1.52,13.94,1.47,3.57,5.37,7.63,9.14,11.57C232.49,109.73,240,117.56,240,128ZM96,120A24,24,0,1,0,72,96,24,24,0,0,0,96,120Zm77.66-26.34a8,8,0,0,0-11.32-11.32l-80,80a8,8,0,0,0,11.32,11.32ZM184,160a24,24,0,1,0-24,24A24,24,0,0,0,184,160Z"></path></svg>
+                    </div>
+                </div>
+
+                <!-- Новинки -->
+                <div class="filter-button-container">
+                    <div class="filter-label">Новинки(<span class="filter-count" data-filter="new">0</span>)</div>
+                    <div class="filter-btn filter-btn-new" data-filter="new" data-tip="Новинки — недавно добавленные позиции">
+                        <svg class="filter-icon-outline" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#222" viewBox="0 0 256 256"><path d="M232,198.65V240a8,8,0,0,1-16,0V198.65A74.84,74.84,0,0,0,192,144v58.35a8,8,0,0,1-14.69,4.38l-10.68-16.31c-.08-.12-.16-.25-.23-.38a12,12,0,0,0-20.89,11.83l22.13,33.79a8,8,0,0,1-13.39,8.76l-22.26-34-.24-.38A28,28,0,0,1,176,176.4V64H160a8,8,0,0,1,0-16h16a16,16,0,0,1,16,16v59.62A90.89,90.89,0,0,1,232,198.65ZM88,56a8,8,0,0,0-8-8H64A16,16,0,0,0,48,64V200a8,8,0,0,0,16,0V64H80A8,8,0,0,0,88,56Zm69.66,42.34a8,8,0,0,0-11.32,0L128,116.69V16a8,8,0,0,0-16,0V116.69L93.66,98.34a8,8,0,0,0-11.32,11.32l32,32a8,8,0,0,0,11.32,0l32-32A8,8,0,0,0,157.66,98.34Z"></path></svg>
+                        <svg class="filter-icon-fill" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#1565c0" viewBox="0 0 256 256"><path d="M128,56H112V16a8,8,0,0,1,16,0Zm64,67.62V72a16,16,0,0,0-16-16H128v60.69l18.34-18.35a8,8,0,0,1,11.32,11.32l-32,32a8,8,0,0,1-11.32,0l-32-32A8,8,0,0,1,93.66,98.34L112,116.69V56H64A16,16,0,0,0,48,72V200a8,8,0,0,0,8,8h74.7c.32.67.67,1.34,1.05,2l.24.38,22.26,34a8,8,0,0,0,13.39-8.76l-22.13-33.79A12,12,0,0,1,166.4,190c.07.13.15.26.23.38l10.68,16.31A8,8,0,0,0,192,202.31V144a74.84,74.84,0,0,1,24,54.69V240a8,8,0,0,0,16,0V198.65A90.89,90.89,0,0,0,192,123.62Z"></path></svg>
+                    </div>
+                </div>
+
+                <!-- Поступления -->
+                <div class="filter-button-container">
+                    <div class="filter-label">Поступления(<span class="filter-count" data-filter="arrival">0</span>)</div>
+                    <div class="filter-btn filter-btn-arrival" data-filter="arrival" data-tip="Поступления — свежие партии товара">
+                        <svg class="filter-icon-outline" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#222" viewBox="0 0 256 256"><path d="M223.68,66.15,135.68,18a15.88,15.88,0,0,0-15.36,0l-88,48.17a16,16,0,0,0-8.32,14v95.64a16,16,0,0,0,8.32,14l88,48.17a15.88,15.88,0,0,0,15.36,0l88-48.17a16,16,0,0,0,8.32-14V80.18A16,16,0,0,0,223.68,66.15ZM128,32l80.35,44L178.57,92.29l-80.35-44Zm0,88L47.65,76,81.56,57.43l80.35,44Zm88,55.85h0l-80,43.79V133.83l32-17.51V152a8,8,0,0,0,16,0V107.56l32-17.51v85.76Z"></path></svg>
+                        <svg class="filter-icon-fill" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#1b5e20" viewBox="0 0 256 256"><path d="M188,120,128,80l55.56-37a8,8,0,0,1,8.88,0L238,73.34a8,8,0,0,1,0,13.32ZM72.44,43a8,8,0,0,0-8.88,0L18,73.34a8,8,0,0,0,0,13.32L68,120l60-40ZM238,153.34,188,120l-60,40,55.56,37a8,8,0,0,0,8.88,0L238,166.66A8,8,0,0,0,238,153.34Zm-220,0a8,8,0,0,0,0,13.32L63.56,197a8,8,0,0,0,8.88,0L128,160,68,120Zm150.61,52.95-38.37-25.58a4,4,0,0,0-4.44,0L87.41,206.29a4,4,0,0,0,0,6.65L123.56,237a8,8,0,0,0,8.88,0l36.15-24.1A4,4,0,0,0,168.59,206.29Z"></path></svg>
+                    </div>
+                </div>
+
+                <!-- Актуальное -->
+                <div class="filter-button-container">
+                    <div class="filter-label">Актуальное(<span class="filter-count" data-filter="actual">0</span>)</div>
+                    <div class="filter-btn filter-btn-actual" data-filter="actual" data-tip="Актуальное — популярные позиции">
+                        <svg class="filter-icon-outline" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#222" viewBox="0 0 256 256"><path d="M176,232a8,8,0,0,1-8,8H88a8,8,0,0,1,0-16h80A8,8,0,0,1,176,232Zm40-128a87.55,87.55,0,0,1-33.64,69.21A16.24,16.24,0,0,0,176,186v6a16,16,0,0,1-16,16H96a16,16,0,0,1-16-16v-6a16,16,0,0,0-6.23-12.66A87.59,87.59,0,0,1,40,104.49C39.74,56.83,78.26,17.14,125.88,16A88,88,0,0,1,216,104Zm-16,0a72,72,0,0,0-73.74-72c-39,.92-70.47,33.39-70.26,72.39a71.65,71.65,0,0,0,27.64,56.3A32,32,0,0,1,96,186v6h64v-6a32.15,32.15,0,0,1,12.47-25.35A71.65,71.65,0,0,0,200,104Zm-16.11-9.34a57.6,57.6,0,0,0-46.56-46.55,8,8,0,0,0-2.66,15.78c16.57,2.79,30.63,16.85,33.44,33.45A8,8,0,0,0,176,104a9,9,0,0,0,1.35-.11A8,8,0,0,0,183.89,94.66Z"></path></svg>
+                        <svg class="filter-icon-fill" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#c62828" viewBox="0 0 256 256"><path d="M176,232a8,8,0,0,1-8,8H88a8,8,0,0,1,0-16h80A8,8,0,0,1,176,232Zm40-128a87.55,87.55,0,0,1-33.64,69.21A16.24,16.24,0,0,0,176,186v6a16,16,0,0,1-16,16H96a16,16,0,0,1-16-16v-6a16,16,0,0,0-6.23-12.66A87.59,87.59,0,0,1,40,104.49C39.74,56.83,78.26,17.14,125.88,16A88,88,0,0,1,216,104Zm-32.11-9.34a57.6,57.6,0,0,0-46.56-46.55,8,8,0,0,0-2.66,15.78c16.57,2.79,30.63,16.85,33.44,33.45A8,8,0,0,0,176,104a9,9,0,0,0,1.35-.11A8,8,0,0,0,183.89,94.66Z"></path></svg>
+                    </div>
+                </div>
+
+                <!-- Детское -->
+                <div class="filter-button-container">
+                    <div class="filter-label">Детское(<span class="filter-count" data-filter="child">0</span>)</div>
+                    <div class="filter-btn filter-btn-child" data-filter="child" data-tip="Детские товары">
+                        <svg class="filter-icon-outline" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#222" viewBox="0 0 256 256"><path d="M92,140a12,12,0,1,1,12-12A12,12,0,0,1,92,140Zm72-24a12,12,0,1,0,12,12A12,12,0,0,0,164,116Zm-12.27,45.23a45,45,0,0,1-47.46,0,8,8,0,0,0-8.54,13.54,61,61,0,0,0,64.54,0,8,8,0,0,0-8.54-13.54ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88.11,88.11,0,0,0-84.09-87.91C120.32,56.38,120,71.88,120,72a8,8,0,0,0,16,0,8,8,0,0,1,16,0,24,24,0,0,1-48,0c0-.73.13-14.3,8.46-30.63A88,88,0,1,0,216,128Z"></path></svg>
+                        <svg class="filter-icon-fill" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#e91e8c" viewBox="0 0 256 256"><path d="M134.16,24.1a4,4,0,0,0-3.56,1.81C120.3,41.48,120,55.79,120,56a8,8,0,0,0,9.68,7.79A8.24,8.24,0,0,0,136,55.68,8,8,0,0,1,144.8,48a8.14,8.14,0,0,1,7.2,8.23,24,24,0,0,1-48-.27c0-.63.09-10.78,5.44-24a4,4,0,0,0-4.59-5.39A104.16,104.16,0,0,0,24.07,131.66C26,186.72,71.23,231,126.32,231.9a104,104,0,0,0,7.84-207.8ZM80,127.91a12,12,0,1,1,12,12A12,12,0,0,1,80,127.91Zm80.27,54.77a61,61,0,0,1-64.54,0,8,8,0,0,1,8.54-13.54,45,45,0,0,0,47.46,0,8,8,0,0,1,8.54,13.54ZM164,139.91a12,12,0,1,1,12-12A12,12,0,0,1,164,139.91Z"></path></svg>
+                    </div>
+                </div>
+
+                <!-- Уценка -->
+                <div class="filter-button-container">
+                    <div class="filter-label">Уценка(<span class="filter-count" data-filter="discount">0</span>)</div>
+                    <div class="filter-btn filter-btn-discount" data-filter="discount" data-tip="Уценённые товары">
+                        <svg class="filter-icon-outline" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#222" viewBox="0 0 256 256"><path d="M225.86,102.82c-3.77-3.94-7.67-8-9.14-11.57-1.36-3.27-1.44-8.69-1.52-13.94-.15-9.76-.31-20.82-8-28.51s-18.75-7.85-28.51-8c-5.25-.08-10.67-.16-13.94-1.52-3.56-1.47-7.63-5.37-11.57-9.14C146.28,23.51,138.44,16,128,16s-18.27,7.51-25.18,14.14c-3.94,3.77-8,7.67-11.57,9.14C88,40.64,82.56,40.72,77.31,40.8c-9.76.15-20.82.31-28.51,8S41,67.55,40.8,77.31c-.08,5.25-.16,10.67-1.52,13.94-1.47,3.56-5.37,7.63-9.14,11.57C23.51,109.72,16,117.56,16,128s7.51,18.27,14.14,25.18c3.77,3.94,7.67,8,9.14,11.57,1.36,3.27,1.44,8.69,1.52,13.94.15,9.76.31,20.82,8,28.51s18.75,7.85,28.51,8c5.25.08,10.67.16,13.94,1.52,3.56,1.47,7.63,5.37,11.57,9.14C109.72,232.49,117.56,240,128,240s18.27-7.51,25.18-14.14c3.94-3.77,8-7.67,11.57-9.14,3.27-1.36,8.69-1.44,13.94-1.52,9.76-.15,20.82-.31,28.51-8s7.85-18.75,8-28.51c.08-5.25.16-10.67,1.52-13.94,1.47-3.56,5.37-7.63,9.14-11.57C232.49,146.28,240,138.44,240,128S232.49,109.73,225.86,102.82Zm-11.55,39.29c-4.79,5-9.75,10.17-12.38,16.52-2.52,6.1-2.63,13.07-2.73,19.82-.1,7-.21,14.33-3.32,17.43s-10.39,3.22-17.43,3.32c-6.75.1-13.72.21-19.82,2.73-6.35,2.63-11.52,7.59-16.52,12.38S132,224,128,224s-9.15-4.92-14.11-9.69-10.17-9.75-16.52-12.38c-6.1-2.52-13.07-2.63-19.82-2.73-7-.1-14.33-.21-17.43-3.32s-3.22-10.39-3.32-17.43c-.1-6.75-.21-13.72-2.73-19.82-2.63-6.35-7.59-11.52-12.38-16.52S32,132,32,128s4.92-9.15,9.69-14.11,9.75-10.17,12.38-16.52c2.52-6.1,2.63-13.07,2.73-19.82.1-7,.21-14.33,3.32-17.43S70.51,56.9,77.55,56.8c6.75-.1,13.72-.21,19.82-2.73,6.35-2.63,11.52-7.59,16.52-12.38S124,32,128,32s9.15,4.92,14.11,9.69,10.17,9.75,16.52,12.38c6.1,2.52,13.07,2.63,19.82,2.73,7,.1,14.33.21,17.43,3.32s3.22,10.39,3.32,17.43c.1,6.75.21,13.72,2.73,19.82,2.63,6.35,7.59,11.52,12.38,16.52S224,124,224,128,219.08,137.15,214.31,142.11ZM120,136V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"></path></svg>
+                        <svg class="filter-icon-fill" xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#666" viewBox="0 0 256 256"><path d="M225.86,102.82c-3.77-3.94-7.67-8-9.14-11.57-1.36-3.27-1.44-8.69-1.52-13.94-.15-9.76-.31-20.82-8-28.51s-18.75-7.85-28.51-8c-5.25-.08-10.67-.16-13.94-1.52-3.56-1.47-7.63-5.37-11.57-9.14C146.28,23.51,138.44,16,128,16s-18.27,7.51-25.18,14.14c-3.94,3.77-8,7.67-11.57,9.14C88,40.64,82.56,40.72,77.31,40.8c-9.76.15-20.82.31-28.51,8S41,67.55,40.8,77.31c-.08,5.25-.16,10.67-1.52,13.94-1.47,3.56-5.37,7.63-9.14,11.57C23.51,109.72,16,117.56,16,128s7.51,18.27,14.14,25.18c3.77,3.94,7.67,8,9.14,11.57,1.36,3.27,1.44,8.69,1.52,13.94.15,9.76.31,20.82,8,28.51s18.75,7.85,28.51,8c5.25.08,10.67.16,13.94,1.52,3.56,1.47,7.63,5.37,11.57,9.14C109.72,232.49,117.56,240,128,240s18.27-7.51,25.18-14.14c3.94-3.77,8-7.67,11.57-9.14,3.27-1.36,8.69-1.44,13.94-1.52,9.76-.15,20.82-.31,28.51-8s7.85-18.75,8-28.51c.08-5.25.16-10.67,1.52-13.94,1.47-3.56,5.37-7.63,9.14-11.57C232.49,146.28,240,138.44,240,128S232.49,109.73,225.86,102.82ZM120,80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm8,104a12,12,0,1,1,12-12A12,12,0,0,1,128,184Z"></path></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Сброс фильтров — за пределами прокручиваемой ленты -->
+            <div class="filter-reset-container" id="filter-reset-container">
+                <div class="filter-label filter-reset-label">Сброс</div>
+                <button class="filter-reset-btn" id="filter-reset-btn" data-tip-left="Сбросить все активные фильтры">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#464743" viewBox="0 0 256 256"><path d="M227.73,66.85,160,139.17v55.49A16,16,0,0,1,152.87,208l-32,21.34A16,16,0,0,1,96,216V139.17L28.27,66.85l-.08-.09A16,16,0,0,1,40,40H216a16,16,0,0,1,11.84,26.76ZM227.31,192l18.35-18.34a8,8,0,0,0-11.32-11.32L216,180.69l-18.34-18.35a8,8,0,0,0-11.32,11.32L204.69,192l-18.35,18.34a8,8,0,0,0,11.32,11.32L216,203.31l18.34,18.35a8,8,0,0,0,11.32-11.32Z"></path></svg>
+                </button>
+            </div>
+
+            <!-- Старая кнопка корзины удалена -->
+        </div>
+    </div>
+
+    <!-- Модальное окно с изображением -->
+    <div class="modal image-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <div style="font-weight: bold; margin-bottom: 5px; font-size: 14px;" class="modal-product-name"></div>
+                <div class="modal-image-container">
+                    <div class="modal-filter-icons"></div>
+                    <img class="modal-image" src="" alt="Изображение товара" style="width: 100%; max-height: 250px; object-fit: contain; border-radius: 8px;">
+                </div>
+                <div class="modal-info" style="font-size: 13px; line-height: 1.5;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно корзины -->
+    <div class="modal cart-modal">
+        <div class="modal-content" style="background:#1a1a1a;color:#fff;border-radius:20px;padding:0;overflow:hidden;max-width:520px;width:calc(100% - 24px);max-height:92vh;display:flex;flex-direction:column">
+
+            <!-- Шапка -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0">
+                <div style="display:flex;align-items:center;gap:10px">
+                    <div style="width:36px;height:36px;border-radius:10px;background:rgba(232,255,71,0.12);display:flex;align-items:center;justify-content:center;font-size:1.1rem">🛒</div>
+                    <div>
+                        <div style="font-size:1rem;font-weight:700">Корзина заказа</div>
+                        <div id="sync-indicator" style="font-size:0.7rem;color:rgba(255,255,255,0.4);margin-top:1px"><span class="sync-dot"></span><span id="sync-text"></span></div>
+                    </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                    <a href="#" class="how-to-order-link" style="font-size:0.72rem;color:rgba(255,255,255,0.4);text-decoration:none;border:1px solid rgba(255,255,255,0.12);border-radius:8px;padding:4px 10px">Как оформить?</a>
+                    <span class="close-modal" style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;color:rgba(255,255,255,0.5);line-height:1">&times;</span>
+                </div>
+            </div>
+
+            <!-- Edit mode banner (admin editing client order) -->
+            <div id="edit-mode-banner" style="display:none;position:fixed;top:0;left:0;right:0;z-index:99999;background:linear-gradient(90deg,#1a3a5c,#0d2137);border-bottom:2px solid #64b4ff;padding:10px 16px;align-items:center;justify-content:space-between;gap:12px;font-size:0.85rem">
+              <div style="display:flex;align-items:center;gap:10px;color:#fff">
+                <span style="font-size:1.2rem">✏️</span>
+                <div>
+                  <div style="font-weight:700;color:#64b4ff">Режим редактирования заказа</div>
+                  <div id="edit-mode-info" style="color:rgba(255,255,255,0.6);font-size:0.75rem"></div>
+                </div>
+              </div>
+              <div style="display:flex;gap:8px;align-items:center">
+                <button id="edit-save-btn" style="padding:7px 16px;background:#64b4ff;color:#0d1117;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.82rem">💾 Сохранить изменения</button>
+                <button id="edit-cancel-btn" style="padding:7px 14px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.6);border:1px solid rgba(255,255,255,0.15);border-radius:8px;cursor:pointer;font-size:0.82rem">✕ Отмена</button>
+              </div>
+            </div>
+
+            <!-- Гостевой баннер -->
+            <div class="guest-cart-banner" id="guest-cart-banner" style="background:rgba(232,255,71,0.07);border-bottom:1px solid rgba(232,255,71,0.15);padding:10px 20px;font-size:0.78rem;color:rgba(255,255,255,0.6);display:none">
+                <span class="gcb-icon">ℹ️</span> Деморежим — данные хранятся только в этом браузере.
+                <a id="gcb-login-link" style="color:#e8ff47;cursor:pointer;text-decoration:underline">Войти</a>, чтобы сохранять заказы.
+            </div>
+
+            <!-- Таблица товаров -->
+            <div class="cart-table-container" style="overflow-y:auto;flex:1;padding:0 20px">
+                <table class="cart-table" style="width:100%;border-collapse:collapse;font-size:0.82rem">
+                    <thead>
+                        <tr style="border-bottom:1px solid rgba(255,255,255,0.08)">
+                            <th style="padding:10px 6px 8px;text-align:left;color:rgba(255,255,255,0.35);font-weight:500;font-size:0.7rem;white-space:nowrap">Код</th>
+                            <th style="padding:10px 6px 8px;text-align:left;color:rgba(255,255,255,0.35);font-weight:500;font-size:0.7rem">Товар</th>
+                            <th style="padding:10px 6px 8px;text-align:center;color:rgba(255,255,255,0.35);font-weight:500;font-size:0.7rem">Кол-во</th>
+                            <th style="padding:10px 6px 8px;text-align:right;color:rgba(255,255,255,0.35);font-weight:500;font-size:0.7rem;white-space:nowrap">Сумма</th>
+                            <th style="padding:10px 6px 8px;text-align:center;color:rgba(255,255,255,0.35);font-weight:500;font-size:0.7rem">Действия</th>
+                            <th style="padding:10px 6px 8px;text-align:left;color:rgba(255,255,255,0.35);font-weight:500;font-size:0.7rem">Комментарий</th>
+                            <th style="padding:10px 6px 8px;text-align:left;color:rgba(255,255,255,0.35);font-weight:500;font-size:0.7rem;white-space:nowrap">Добавлен</th>
+                        </tr>
+                    </thead>
+                    <tbody class="cart-items"></tbody>
+                </table>
+            </div>
+
+            <!-- Футер корзины -->
+            <div class="cart-footer" style="padding:14px 20px 18px;border-top:1px solid rgba(255,255,255,0.08);flex-shrink:0">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                    <span style="color:rgba(255,255,255,0.5);font-size:0.85rem">Итого</span>
+                    <span class="cart-modal-total" style="font-size:1.2rem;font-weight:700;color:#e8ff47">0 руб.</span>
+                </div>
+                <div style="display:flex;gap:10px">
+                    <button class="send-order-btn" style="flex:1;padding:13px;background:linear-gradient(135deg,#e8ff47,#c8df00);color:#111;border:none;border-radius:13px;cursor:pointer;font-weight:700;font-size:0.9rem">Оформить заказ</button>
+                    <button class="clear-btn" style="padding:13px 16px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.1);border-radius:13px;cursor:pointer;font-size:0.85rem;display:flex;align-items:center;gap:6px">
+                        <img src="https://s3.twcstorage.ru/b04d8e62-1f390a87-c534-4292-9c87-f27109b60cdd/%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B8/%D0%BA%D0%BE%D1%80%D0%B7%D0%B8%D0%BD2.png" alt="" style="width:15px;height:15px;object-fit:contain;opacity:0.5;filter:invert(1)"> Очистить
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно подтверждения заказа -->
+    <div class="modal order-info-modal">
+        <div class="modal-content" style="background:#1a1a1a;color:#fff;border-radius:20px;padding:0;overflow:hidden;max-width:460px;width:calc(100% - 24px);max-height:90vh;display:flex;flex-direction:column">
+
+            <!-- Шапка -->
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid rgba(255,255,255,0.08);flex-shrink:0">
+                <div style="display:flex;align-items:center;gap:10px">
+                    <div style="width:36px;height:36px;border-radius:10px;background:rgba(232,255,71,0.12);display:flex;align-items:center;justify-content:center;font-size:1.1rem">📋</div>
+                    <div style="font-size:1rem;font-weight:700">Подтверждение заказа</div>
+                </div>
+                <span class="close-modal" style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;color:rgba(255,255,255,0.5);line-height:1">&times;</span>
+            </div>
+
+            <!-- Форма -->
+            <div style="overflow-y:auto;flex:1;padding:18px 20px">
+                <div class="customer-form">
+                    <div style="margin-bottom:14px">
+                        <label style="display:block;margin-bottom:6px;font-size:0.75rem;color:rgba(255,255,255,0.45);font-weight:500;text-transform:uppercase;letter-spacing:0.05em">Ваше имя</label>
+                        <input type="text" id="customer-name" placeholder="Как к вам обращаться"
+                            style="width:100%;padding:11px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:11px;font-size:0.9rem;color:#fff;outline:none;box-sizing:border-box">
+                    </div>
+                    <div style="margin-bottom:14px">
+                        <label style="display:block;margin-bottom:6px;font-size:0.75rem;color:rgba(255,255,255,0.45);font-weight:500;text-transform:uppercase;letter-spacing:0.05em">Адрес доставки</label>
+                        <input type="text" id="customer-location" placeholder="Населённый пункт, улица"
+                            style="width:100%;padding:11px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:11px;font-size:0.9rem;color:#fff;outline:none;box-sizing:border-box">
+                    </div>
+
+                    <!-- Delivery schedule block -->
+                    <div id="confirm-delivery-block" style="margin-bottom:14px;display:none">
+                        <div style="background:rgba(232,255,71,0.05);border:1px solid rgba(232,255,71,0.2);border-radius:13px;padding:12px 14px">
+                            <div style="font-size:0.72rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:8px">🚚 Вывоз заказа</div>
+                            <div id="confirm-delivery-text" style="font-size:0.85rem;color:rgba(255,255,255,0.85);margin-bottom:8px"></div>
+                            <div id="confirm-delivery-dates" style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px"></div>
+                            <!-- Multi-direction selector (shown if city matches several routes) -->
+                            <div id="confirm-direction-selector" style="display:none;margin-top:8px">
+                                <div style="font-size:0.75rem;color:rgba(255,255,255,0.5);margin-bottom:6px">Ваш адрес входит в несколько маршрутов — выберите удобный:</div>
+                                <div id="confirm-direction-options" style="display:flex;flex-direction:column;gap:6px"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- No delivery notice -->
+                    <div id="confirm-no-delivery" style="margin-bottom:14px;display:none">
+                        <div style="background:rgba(247,129,102,0.08);border:1px solid rgba(247,129,102,0.25);border-radius:13px;padding:12px 14px;font-size:0.85rem;color:rgba(255,255,255,0.7)">
+                            📍 Для вашего населённого пункта расписание вывоза уточняйте у менеджера
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom:6px">
+                        <label style="display:block;margin-bottom:6px;font-size:0.75rem;color:rgba(255,255,255,0.45);font-weight:500;text-transform:uppercase;letter-spacing:0.05em">Примечание для менеджера</label>
+                        <textarea id="customer-info" placeholder="Дополнительная информация (необязательно)"
+                            style="width:100%;padding:11px 14px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:11px;font-size:0.9rem;color:#fff;outline:none;min-height:80px;resize:vertical;box-sizing:border-box;font-family:inherit"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Кнопки -->
+            <div style="padding:14px 20px 18px;border-top:1px solid rgba(255,255,255,0.08);flex-shrink:0">
+                <div id="order-action-btns" style="display:flex;flex-direction:column;gap:10px">
+                    <button id="btn-confirm-order" style="width:100%;padding:14px;background:linear-gradient(135deg,#e8ff47,#c8df00);color:#111;border:none;border-radius:13px;cursor:pointer;font-weight:700;font-size:0.95rem">✓ Подтвердить заказ</button>
+                    <button class="copy-order-btn" id="btn-copy-only" style="display:none;width:100%;padding:14px;background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.7);border:1px solid rgba(255,255,255,0.12);border-radius:13px;cursor:pointer;font-weight:600;font-size:0.9rem">📋 Скопировать заказ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно с инструкцией -->
+    <div class="modal instructions-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="font-size: 1.2rem; margin-bottom: 12px; text-align: center;">Как оформить заказ?</h2>
+            <div style="font-size: 13px; line-height: 1.5; white-space: pre-line;">
+Внимание - минимальный заказ 2500 р. (исключение - доп заказ к уже отправленному).
+
+После нажатия на кнопку отправки заказа сначала появится окно для ввода дополнительной информации, в него будут входить:
+- Поле для ввода вашего имени (либо контактного лица, кто будет получать заказ).
+- Поле для ввода населенного пункта, куда должен товар доставляться.
+- Поле для ввода дополнительной информации к заказу.
+
+Эти поля НЕ ЯВЛЯЮТСЯ обязательными для заполнения.
+
+Чтобы отправить заказ менеджеру:
+1. Нажмите «Копировать заказ» — текст скопируется в буфер обмена.
+2. Вставьте заказ в чат с менеджером (WhatsApp/Telegram) или отправьте на email: opt.online.ussurijsk@gmail.com.
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно уведомления о старом заказе -->
+    <div class="modal old-order-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="font-size: 1.2rem; margin-bottom: 12px; text-align: center;">Найден старый заказ</h2>
+
+            <div class="old-order-warning">
+                <strong>Внимание!</strong> В корзине есть заказанные товары из предыдущей сессии.
+            </div>
+
+            <div class="old-order-details">
+                <div><strong>Самое позднее добавление:</strong> <span class="latest-time-display"></span></div>
+                <div><strong>Количество позиций:</strong> <span class="cart-items-count"></span></div>
+                <div><strong>Общая сумма:</strong> <span class="cart-total-amount"></span> ₽</div>
+            </div>
+
+            <div style="margin-top: 15px; font-size: 13px; line-height: 1.4;">
+                <p>Если хотите начать новый заказ — зайдите в корзину и очистите её.</p>
+                <p>Или продолжите редактирование текущего заказа.</p>
+            </div>
+
+            <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
+                <button class="go-to-cart-btn" style="padding: 10px 20px; background-color: #4285f4; color: white; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;">Перейти в корзину</button>
+                <button class="continue-shopping-btn" style="padding: 10px 20px; background-color: #f5f5f5; color: #333; border: 1px solid #ddd; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 13px;">Продолжить покупки</button>
+            </div>
+        </div>
+    </div>
+    </div><!-- /#app-content -->
+
+    <!-- Модальные окна для регистрации/авторизации (UI only) -->
+    <div class="modal register-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 style="margin-bottom:8px; text-align:center;">Регистрация</h3>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+                <input placeholder="Имя" style="padding:8px;border:1px solid #ddd;border-radius:8px;">
+                <input placeholder="Телефон или e-mail" style="padding:8px;border:1px solid #ddd;border-radius:8px;">
+                <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px;">
+                    <button class="splash-secondary-btn close-register">Закрыть</button>
+                    <button class="splash-secondary-btn" style="background:var(--primary-color);color:#fff;border:none;">Зарегистрироваться</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal login-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3 style="margin-bottom:8px; text-align:center;">Авторизация</h3>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+                <input placeholder="Телефон или e-mail" style="padding:8px;border:1px solid #ddd;border-radius:8px;">
+                <input placeholder="Пароль" type="password" style="padding:8px;border:1px solid #ddd;border-radius:8px;">
+                <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:6px;">
+                    <button class="splash-secondary-btn close-login">Закрыть</button>
+                    <button class="splash-secondary-btn" style="background:var(--primary-color);color:#fff;border:none;">Войти</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SPLASH INFO MODAL -->
+    <div id="splash-info-modal" class="splash-modal-overlay">
+        <div class="splash-modal-box">
+            <button class="splash-modal-close" id="splash-info-close">✕</button>
+            <h3 id="splash-info-title" style="margin:0 0 12px;font-size:16px;padding-right:24px;"></h3>
+            <div id="splash-info-body" style="font-size:13px;line-height:1.6;color:#333;"></div>
+        </div>
+    </div>
+
+    <!-- SPLASH DETAIL MODAL -->
+    <div id="splash-detail-modal" class="splash-modal-overlay">
+        <div class="splash-modal-box splash-detail-box">
+            <div class="splash-detail-header">
+                <span id="splash-detail-title" class="splash-detail-title-text"></span>
+                <button id="splash-detail-print" class="splash-detail-print-btn" title="Скачать PDF"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><path d="M224,152a8,8,0,0,1-8,8H192v16h16a8,8,0,0,1,0,16H192v16a8,8,0,0,1-16,0V152a8,8,0,0,1,8-8h32A8,8,0,0,1,224,152ZM92,172a28,28,0,0,1-28,28H56v8a8,8,0,0,1-16,0V152a8,8,0,0,1,8-8H64A28,28,0,0,1,92,172Zm-16,0a12,12,0,0,0-12-12H56v24h8A12,12,0,0,0,76,172Zm88,8a36,36,0,0,1-36,36H112a8,8,0,0,1-8-8V152a8,8,0,0,1,8-8h16A36,36,0,0,1,164,180Zm-16,0a20,20,0,0,0-20-20h-8v40h8A20,20,0,0,0,148,180ZM40,112V40A16,16,0,0,1,56,24h96a8,8,0,0,1,5.66,2.34l56,56A8,8,0,0,1,216,88v24a8,8,0,0,1-16,0V96H152a8,8,0,0,1-8-8V40H56v72a8,8,0,0,1-16,0ZM160,80h28.69L160,51.31Z"/></svg> PDF</button>
+                <button id="splash-detail-close" class="splash-modal-close" style="position:static;">✕</button>
+            </div>
+            <div id="splash-detail-body" class="splash-detail-body"></div>
+        </div>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+</body>
+</html>

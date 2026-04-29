@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.env
+.env.admin
+.env.local
+.mcp.json
+*.log

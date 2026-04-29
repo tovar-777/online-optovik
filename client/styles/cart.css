@@ -1,0 +1,697 @@
+/* Стили для контейнера кнопок фильтров */
+.filter-buttons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 3px 0;
+    scrollbar-width: none;
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.filter-buttons::-webkit-scrollbar {
+    display: none;
+}
+
+.filter-button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 50px;
+    gap: 3px;
+}
+
+.filter-label {
+    font-size: 9px;
+    color: #666;
+    text-align: center;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+/* ── Reset filter button ─────────────────────────────────── */
+.filter-reset-container {
+    display: none; /* shown via JS when filters active */
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+    margin-left: 16px; /* slightly more than 12px gap between filters */
+}
+
+.filter-reset-container.active {
+    display: flex;
+}
+
+.filter-reset-label {
+    font-size: 9px;
+    color: #464743;
+    font-style: italic;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.filter-reset-btn {
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    opacity: 0.8;
+    transition: opacity 0.15s;
+    animation: reset-pulse 2s ease-in-out infinite;
+}
+
+.filter-reset-btn:hover {
+    opacity: 1;
+    animation: none;
+}
+
+@keyframes reset-pulse {
+    0%, 100% { transform: scale(1);   opacity: 0.8; }
+    50%       { transform: scale(1.18); opacity: 1;   }
+}
+
+/* ── Active filter button pulse ──────────────────────────── */
+/* Uses transform+opacity only — GPU-accelerated, no layout/paint cost */
+@keyframes filter-active-pulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.12); }
+}
+
+.filter-count {
+    font-weight: bold;
+    color: #4285f4;
+}
+
+/* Контейнер для кнопки поиска */
+.search-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+/* Выплывающее поле поиска */
+.search-expanded-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 56px;
+    border-radius: 28px;
+    background-color: white;
+    border: 2px solid var(--primary-color);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    z-index: 1001;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateX(20px) scale(0.9);
+    display: flex;
+    flex-direction: column;
+}
+
+.search-expanded-container.active {
+    width: 280px;
+    pointer-events: auto;
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    border-radius: 20px;
+}
+
+.search-input-wrapper {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    width: 100%;
+    height: 56px;
+    box-sizing: border-box;
+}
+
+.search-input-expanded {
+    flex: 1;
+    border: 1px solid #ddd;
+    outline: none;
+    font-size: 14px;
+    padding: 10px 14px;
+    background: #fff;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0.2s ease, box-shadow 0.15s ease;
+    border-radius: 20px;
+    height: 44px;
+    box-sizing: border-box;
+    box-shadow: none;
+}
+
+.search-expanded-container.active .search-input-expanded {
+    opacity: 1;
+}
+
+.clear-search-expanded {
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    flex-shrink: 0;
+}
+
+.clear-search-expanded.active {
+    opacity: 1;
+}
+
+/* Модальное окно глобального поиска */
+.global-search-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1200;
+}
+
+.global-search-modal.active {
+    display: flex;
+}
+
+.global-search-dialog {
+    width: 100%;
+    max-width: 640px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    padding: 12px 16px;
+    box-sizing: border-box;
+    max-height: 86vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.global-search-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.global-search-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #333;
+}
+
+.global-search-close {
+    border: none;
+    background: none;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    color: #888;
+}
+
+.global-search-input-wrapper {
+    margin-bottom: 4px;
+}
+
+.global-search-input {
+    width: 100%;
+    border-radius: 999px;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.global-search-note {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 6px;
+}
+
+.global-search-body {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-height: 0;
+}
+
+.global-search-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.global-search-group-header {
+    font-size: 14px;
+    font-weight: 800;
+    color: #1a73e8;
+    text-decoration: underline;
+    padding: 10px 8px 6px 8px;
+    background: rgba(0,0,0,0.02);
+    border-radius: 6px;
+    margin: 6px 0 4px 0;
+    cursor: pointer;
+}
+.global-search-group-header:hover {
+    background: rgba(26,115,232,0.06);
+    color: #174ea6;
+}
+
+.global-search-details {
+    display: none;
+}
+
+.global-search-item {
+    display: flex;
+    gap: 8px;
+    padding: 6px 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    align-items: center;
+}
+
+.global-search-item:hover {
+    background: #f5f5f5;
+}
+
+.global-search-item.selected {
+    background: #ffebee;
+}
+
+.global-search-thumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: #f5f5f5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.global-search-thumb img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.global-search-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.global-search-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.global-search-meta {
+    font-size: 11px;
+    color: #777;
+}
+
+.global-search-meta span + span::before {
+    content: "•";
+    margin: 0 4px;
+    color: #ccc;
+}
+
+.global-search-details-content {
+    font-size: 12px;
+}
+
+.global-search-inline-controls {
+    margin-top: 6px;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+}
+
+.global-search-inline-controls .quantity-controls-expanded {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+.global-search-details-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quantity-unit {
+    font-size: 12px;
+    color: #666;
+    margin-left: 4px;
+}
+
+.goto-group-btn {
+    min-width: 44px;
+    height: 34px;
+    padding: 6px 8px;
+    border-radius: 10px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+}
+
+.goto-group-btn:hover { background-color: #eee; }
+
+.product-card.highlighted-red {
+    box-shadow: 0 0 0 3px rgba(211,47,47,0.95);
+    transition: box-shadow 0.18s ease-in-out;
+}
+
+@media (max-width: 480px) {
+    .global-search-dialog {
+        border-radius: 16px 16px 0 0;
+        max-width: 100%;
+    }
+}
+
+/* Кнопка глобального поиска под полем */
+.global-search-trigger {
+    display: none;
+    padding: 4px 10px 10px 50px;
+    box-sizing: border-box;
+}
+
+.search-expanded-container.active .global-search-trigger {
+    display: block;
+}
+
+.global-search-btn {
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--primary-color), #b71c1c);
+    padding: 0 14px;
+    font-size: 13px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(211, 47, 47, 0.35);
+}
+
+.global-search-btn span.icon {
+    font-size: 16px;
+}
+
+/* Кнопка поиска (над выплывающим полем) */
+.search-floating-btn {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1002;
+}
+
+.search-floating-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.search-floating-btn img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+/* Новый стиль для плавающих кнопок - корзина над нижней панелью */
+.floating-buttons {
+    position: fixed;
+    right: 15px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+/* Кнопка корзины (ниже поиска) */
+.cart-floating-btn {
+    width: auto;
+    min-width: 56px;
+    height: 56px;
+    border-radius: 28px;
+    background-color: rgba(255, 255, 255, 0.55);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: none;
+    transition: all 0.3s ease;
+    padding: 0 12px;
+    gap: 6px;
+    position: relative;
+}
+
+.cart-floating-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cart-floating-btn img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.cart-floating-total {
+    font-size: 14px;
+    font-weight: 800;
+    color: #fc0328;
+    min-width: 40px;
+    text-align: center;
+    text-shadow:
+        -1px -1px 0 #f8fc03,
+         1px -1px 0 #f8fc03,
+        -1px  1px 0 #f8fc03,
+         1px  1px 0 #f8fc03;
+}
+
+/* Нижняя панель */
+.bottom-panel {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    height: 90px;
+}
+
+.brands-filter-section {
+    background-color: white;
+    padding: 5px 10px;
+    border-bottom: 1px solid #f0f0f0;
+    height: 38px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.brands-filter-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    display: flex;
+    gap: 4px;
+    padding: 0 2px;
+}
+
+.brands-filter-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.brand-filter-btn { position: relative;
+    flex-shrink: 0;
+    padding: 3px 8px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 22px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.brand-filter-btn:hover:not(.disabled) {
+    background-color: #f5f5f5;
+    border-color: #ccc;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.brand-filter-btn.active {
+    background-color: var(--brand-color);
+    color: white;
+    border-color: var(--brand-color);
+    box-shadow: 0 2px 6px rgba(66, 133, 244, 0.3);
+}
+
+.brand-filter-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    background-color: #f9f9f9;
+}
+
+.brand-filter-btn.clear-all {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    color: #666;
+    font-weight: 500;
+}
+
+.brand-filter-btn.clear-all:hover:not(.disabled) {
+    background-color: #e0e0e0;
+    border-color: #bbb;
+}
+
+.brand-filter-btn.clear-all.active {
+    background-color: #666;
+    color: white;
+    border-color: #666;
+}
+
+.bottom-buttons {
+    padding: 8px 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 52px;
+    margin-top: 0;
+    gap: 0;
+}
+
+
+.filter-btn { position: relative;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #666;
+    padding: 0;
+    overflow: hidden;
+}
+
+.filter-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 6px;
+}
+
+.filter-btn.active {
+    background-color: transparent;
+    border: none;
+    animation: filter-active-pulse 1.8s ease-in-out infinite;
+    transform-origin: center;
+}
+
+/* SVG icon toggle: outline visible by default, fill hidden */
+.filter-btn .filter-icon-outline { display: block; }
+.filter-btn .filter-icon-fill    { display: none; }
+/* When active: swap to fill */
+.filter-btn.active .filter-icon-outline { display: none; }
+.filter-btn.active .filter-icon-fill    { display: block; }
+
+/* Promo pulse animation — on card badges only */
+@keyframes promo-pulse {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.35; }
+    100% { opacity: 1; }
+}
+.filter-icon-preview[data-filter-type="promo"],
+.filter-icon-expanded[data-filter-type="promo"] {
+    animation: promo-pulse 1.4s ease-in-out infinite;
+}
+
+.filter-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.cart-bottom-btn {
+    background-color: #ffebee;
+    color: #d32f2f;
+    border: 1px solid #ffcdd2;
+    padding: 10px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(244, 67, 54, 0.2);
+    height: 36px;
+}
+
+.cart-bottom-btn img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    background-color: #ffebee;
+    border-radius: 50%;
+    padding: 4px;
+}
+
